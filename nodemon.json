@@ -1,0 +1,12 @@
+{
+   "ignore": [
+      "*.test.js",
+      "node_modules/*",
+      ".git/*",
+      ".prettierrc",
+      "babel.config.js",
+      "jest.config.js",
+      "build/*"
+   ],
+   "delay": "2500"
+}

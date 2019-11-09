@@ -1,18 +1,17 @@
-
 import React from 'react';
 import styled from 'styled-components';
+import Key from 'components/Key';
 
 const Wrapper = styled.div`
    background-color: #F3DEC1;
    min-height: 100vh;
    * {
       font-family: 'Helvetica', Arial, sans-serif;
-      font-size: 1.6rem;
    }
 `;
 
 const Header = styled.header.attrs({
-   role: 'navigation'
+   role: 'navigation',
 })`
    color: #fff;
    background-color: #77474B;
@@ -23,7 +22,7 @@ const Header = styled.header.attrs({
 `;
 
 const Title = styled.h1`
-   font-size: 2.0rem;
+   font-size: 2.4rem;
    line-height: 50px;
    font-style: italic;
    font-weight: 500;
@@ -39,19 +38,6 @@ const PianoRoll = styled.div`
    flex-direction: row;
    justify-content: center;
 `;
-
-const Key = styled.button`
-   background: ${p => p.black ? '#000' : '#fafafa'};
-   height: 100px;
-   width: 50px;
-   border: 0;
-   margin-right: 10px;
-   padding: 5px;
-   &:last-child {
-      margin-right: 0;
-   }
-`;
-
 
 // const [infoOpen, setInfoOpen] = useState(false);
 
@@ -70,17 +56,7 @@ function App (props) {
          </Header>
          <Main>
             <PianoRoll>
-               <Key black />
-               <Key />
-               <Key />
-               <Key black />
-               <Key />
-               <Key black />
-               <Key />
-               <Key black />
-               <Key />
-               <Key />
-               <Key black />
+               <Key black letter="A" note={"C\u266F"} interval="m5" />
             </PianoRoll>
          </Main>
       </Wrapper>

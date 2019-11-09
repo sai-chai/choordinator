@@ -4,10 +4,13 @@ module.exports = {
          "@babel/preset-env",
          {
             corejs: 3,
-            targets: "> 5% and not dead"
-         }
+            targets: "> 5% and not dead",
+         },
       ],
-      "@babel/preset-react"
+      "@babel/preset-react",
    ],
-   plugins: ["babel-plugin-styled-components"]
+   plugins: [
+      "babel-plugin-styled-components",
+      "@babel/plugin-syntax-dynamic-import",
+   ],
 };

@@ -40,7 +40,7 @@ build/Release
 
 # Dependency directories
 node_modules/
-jspm_packages/
+jspm_packages/ 
 
 # TypeScript v1 declaration files
 typings/
@@ -50,6 +50,7 @@ typings/
 
 # Optional npm cache directory
 .npm
+.npmrc
 
 # Optional eslint cache
 .eslintcache
@@ -87,3 +88,5 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+.DS_Store

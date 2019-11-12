@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { note as noteFn } from '@tonaljs/tonal';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-   font-family: 'Courier New', Courier, monospace;
-   margin-left: 5px;
-   margin-right: 5px;
+   margin-left: 2.5px;
+   margin-right: 2.5px;
    &:first-child {
       margin-left: 0;
    }
@@ -18,11 +18,12 @@ const Button = styled.button`
    display: flex;
    flex-direction: column;
    justify-content: space-between;
+   font-family: 'Courier New', Courier, monospace;
+   font-size: 1.6rem;
    height: 150px;
    width: 50px;
    border: 0;
    padding: 5px;
-   font-size: 1.6rem;
    ${p => p.black ?
       'background: #000; color: #fafafa' :
       'background: #fafafa; color: #000'};
@@ -52,7 +53,7 @@ const Key = ({ black, letter, note, interval, onClick }) => (
             {letter}
          </Letter>
          <Note>
-            {note}
+            {noteFn(note).pc.replace('#', '\u266F').replace('b', '\u266D')}
          </Note>
       </Button>
       <Interval>

@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from 'containers/App';
 
-import './index.scss';
+import './base.scss';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';

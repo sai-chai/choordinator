@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import keyGen from 'weak-key';
+
 import { note } from '@tonaljs/tonal';
 import { rotate } from '@tonaljs/array';
-// import Range from '@tonaljs/range';
 import { scale } from '@tonaljs/scale';
 import { entries as scaleDictionary } from '@tonaljs/scale-dictionary';
+// import Range from '@tonaljs/range';
+
 import Key from 'components/Key';
 import {
    HOME_ROW_KEYS,
@@ -71,7 +73,6 @@ const scaleNames = scaleDictionary().reduce((acc, curr) => {
    acc.push(curr.name);
    return acc;
 }, []);
-
 
 // For tonic selector, e.g. C5, Ab4, G1, etc.
 // const noteRange = Range.chromatic(RANGE_TUPLET);

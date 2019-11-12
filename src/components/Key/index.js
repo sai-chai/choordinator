@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { note as noteFn } from '@tonaljs/tonal';
 import styled from 'styled-components';
+import { note as noteFn } from '@tonaljs/tonal';
 
 const Wrapper = styled.div`
    margin-left: 2.5px;
@@ -20,8 +20,8 @@ const Button = styled.button`
    justify-content: space-between;
    font-family: 'Courier New', Courier, monospace;
    font-size: 1.6rem;
-   height: 150px;
-   width: 50px;
+   height: 225px;
+   width: 75px;
    border: 0;
    padding: 5px;
    ${p => p.black ?

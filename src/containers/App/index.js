@@ -1,20 +1,69 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
-import keyGen from 'weak-key';
 
-import { note } from '@tonaljs/tonal';
-import { rotate } from '@tonaljs/array';
-import { scale } from '@tonaljs/scale';
+// import { note } from '@tonaljs/tonal';
+// import { rotate } from '@tonaljs/array';
 import { entries as scaleDictionary } from '@tonaljs/scale-dictionary';
-// import Range from '@tonaljs/range';
+import { chromatic } from '@tonaljs/range';
 
-import Key from 'components/Key';
-import {
-   HOME_ROW_KEYS,
-   /* RANGE_TUPLET */
-} from './constants';
+import PianoRoll from 'containers/PianoRoll';
+import Select from 'components/Select';
 
-const Wrapper = styled.div`
+import { RANGE_TUPLET, DEFAULT_TONIC } from './constants';
+
+
+function App (props) {
+   // const [infoOpen, setInfoOpen] = useState(false);
+   // const onInfoClick = e => {
+   //    setInfoOpen(!infoOpen);
+   //    e.stopPropagation();
+   // };
+   const [scale, setScale] = useState("major");
+   const [tonic, setTonic] = useState(DEFAULT_TONIC);
+
+   // For scale dropdown, e.g. major, minor, mixolydian, etc.
+   const scaleNames = useMemo(
+      () => scaleDictionary().reduce(
+         (acc, curr) => {
+            acc.push(curr.name);
+            return acc;
+         }, []
+      )
+   );
+
+   // For tonic selector, e.g. C5, Ab4, G1, etc.
+   const tonicList = useMemo(() => chromatic(RANGE_TUPLET));
+
+   return (
+      <Container>
+         <Header>
+            <Title>
+               The Choordinator
+            </Title>
+            {/* <InfoButton onClick={onInfoClick} /> */}
+         </Header>
+         <Main>
+            <Settings>
+               <Select
+                  name="tonic"
+                  value={tonic}
+                  options={tonicList}
+                  setState={setTonic}
+               />
+               <Select
+                  name="scale"
+                  value={scale}
+                  options={scaleNames}
+                  setState={setScale}
+               />
+            </Settings>
+            <PianoRoll tonic={tonic} scale={scale} />
+         </Main>
+      </Container>
+   );
+}
+
+const Container = styled.div`
    background-color: #F3DEC1;
    min-height: 100vh;
    font-family: 'Helvetica', Arial, sans-serif;
@@ -48,86 +97,5 @@ const Settings = styled.form`
    flex-direction: row;
    justify-content: center;
 `;
-
-const PianoRoll = styled.div`
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-`;
-
-const Select = styled(p => (
-   <select name={p.name} defaultValue="major">
-      {p.options.map(option => (
-         <option
-            key={keyGen({ name: option })} // weak-key only hashes objects
-            value={option}
-         >
-            {option}
-         </option>
-      ))}
-   </select>
-))``;
-
-// For scale dropdown, e.g. major, minor, mixolydian, etc.
-const scaleNames = scaleDictionary().reduce((acc, curr) => {
-   acc.push(curr.name);
-   return acc;
-}, []);
-
-// For tonic selector, e.g. C5, Ab4, G1, etc.
-// const noteRange = Range.chromatic(RANGE_TUPLET);
-
-// Props for key mapping
-const keys = [];
-
-// Mock for development
-const currentScale = scale('C4 minor');
-let currentNotes = rotate(-2, currentScale.notes);
-let currentIntervals = rotate(-2, currentScale.intervals);
-
-HOME_ROW_KEYS.forEach((key, index) => {
-   let transpose = 0;
-   if (index < 2) {
-      transpose = -1;
-   } else if (index >= currentNotes.length + 2) {
-      transpose = 1;
-   }
-   keys.push({
-      letter: key,
-      note: note(currentNotes[0]).pc + (note(currentNotes[0]).oct + transpose),
-      interval: currentIntervals[0],
-      black: note(currentNotes[0]).alt !== 0,
-   });
-   currentNotes = rotate(1, currentNotes);
-   currentIntervals = rotate(1, currentIntervals);
-});
-
-function App (props) {
-   // const [infoOpen, setInfoOpen] = useState(false);
-   // const onInfoClick = e => {
-   //    setInfoOpen(!infoOpen);
-   //    e.stopPropagation();
-   // };
-   return (
-      <Wrapper>
-         <Header>
-            <Title>
-               The Choordinator
-            </Title>
-            {/* <InfoButton onClick={onInfoClick} /> */}
-         </Header>
-         <Main>
-            <Settings>
-               <Select name="scale" options={scaleNames} />
-            </Settings>
-            <PianoRoll>
-               {keys.map(key =>
-                  <Key key={keyGen(key)} {...key} />
-               )}
-            </PianoRoll>
-         </Main>
-      </Wrapper>
-   );
-}
 
 export default App;

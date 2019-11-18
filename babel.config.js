@@ -10,7 +10,10 @@ module.exports = {
       "@babel/preset-react",
    ],
    plugins: [
-      "babel-plugin-styled-components",
+      [
+         "babel-plugin-styled-components",
+         { displayName: true },
+      ],
       "@babel/plugin-syntax-dynamic-import",
    ],
 };

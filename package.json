@@ -1,6 +1,6 @@
 {
   "name": "choordinator",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Scale and chord inventory for browsers",
   "main": "index.js",
   "scripts": {

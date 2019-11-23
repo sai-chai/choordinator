@@ -4,13 +4,16 @@ import styled from 'styled-components';
 import keyGen from 'weak-key';
 
 const Select = ({ name, options, value, setState }) => {
-   const handleChange = e => setState(e.target.value);
+   const handleChange = e => {
+      setState(e.target.value);
+      e.target.blur();
+   };
 
    return (
       <Styled name={name} value={value} onChange={handleChange}>
          {options.map(option => (
             <option
-               key={keyGen({ name, option })} // weak-key only hashes objects
+               key={keyGen({ name, option, value })} // weak-key only hashes objects
                value={option}
             >
                {option}

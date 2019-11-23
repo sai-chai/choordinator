@@ -1,8 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 
-// import { note } from '@tonaljs/tonal';
-// import { rotate } from '@tonaljs/array';
 import { entries as scaleDictionary } from '@tonaljs/scale-dictionary';
 import { chromatic } from '@tonaljs/range';
 
@@ -13,11 +11,6 @@ import { RANGE_TUPLET, DEFAULT_TONIC } from './constants';
 
 
 function App (props) {
-   // const [infoOpen, setInfoOpen] = useState(false);
-   // const onInfoClick = e => {
-   //    setInfoOpen(!infoOpen);
-   //    e.stopPropagation();
-   // };
    const [scale, setScale] = useState("major");
    const [tonic, setTonic] = useState(DEFAULT_TONIC);
 
@@ -28,7 +21,7 @@ function App (props) {
             acc.push(curr.name);
             return acc;
          }, []
-      )
+      ).sort()
    );
 
    // For tonic selector, e.g. C5, Ab4, G1, etc.

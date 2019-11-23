@@ -3,9 +3,20 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { note as noteFn } from '@tonaljs/tonal';
 
-const Key = ({ black, letter, note, interval, onClick }) => (
+const Key = ({
+   black,
+   letter,
+   note,
+   interval,
+   onMouseDown,
+   onMouseUp,
+}) => (
    <Wrapper>
-      <Button black={black} onClick={onClick}>
+      <Button
+         black={black}
+         onMouseDown={onMouseDown}
+         onMouseUp={onMouseUp}
+      >
          <Letter>
             {letter}
          </Letter>
@@ -22,9 +33,11 @@ const Key = ({ black, letter, note, interval, onClick }) => (
 Key.propTypes = {
    black: PropTypes.bool,
    letter: PropTypes.string,
+   code: PropTypes.string,
    note: PropTypes.string,
    interval: PropTypes.string,
-   onClick: PropTypes.func,
+   onMouseDown: PropTypes.func,
+   onMouseUp: PropTypes.func,
 };
 
 const Wrapper = styled.div`

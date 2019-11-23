@@ -42,6 +42,12 @@ build/Release
 node_modules/
 jspm_packages/ 
 
+# large audio files, will be loaded from a CDN in production
+src/audio/
+
+# folder for ideas that aren't ready for implementation
+scratch_pad/
+
 # TypeScript v1 declaration files
 typings/
 

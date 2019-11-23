@@ -71,6 +71,7 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "regenerator-runtime": "^0.13.3",
+    "soundfont-player": "^0.11.0",
     "styled-components": "^4.4.1",
     "weak-key": "^1.0.1"
   }

@@ -6,6 +6,7 @@ import { chromatic } from '@tonaljs/range';
 
 import PianoRoll from 'containers/PianoRoll';
 import Select from 'components/Select';
+import ArrowSelect from 'components/ArrowSelect';
 
 import { RANGE_TUPLET, DEFAULT_TONIC } from './constants';
 
@@ -37,18 +38,24 @@ function App (props) {
          </Header>
          <Main>
             <Settings>
-               <Select
-                  name="tonic"
-                  value={tonic}
-                  options={tonicList}
-                  setState={setTonic}
-               />
-               <Select
-                  name="scale"
-                  value={scale}
-                  options={scaleNames}
-                  setState={setScale}
-               />
+               <div>
+                  <Label>Tonic note:</Label>
+                  <Label>Scale:</Label>
+               </div>
+               <div>
+                  <ArrowSelect
+                     name="tonic"
+                     value={tonic}
+                     options={tonicList}
+                     setValue={setTonic}
+                  />
+                  <Select
+                     name="scale"
+                     value={scale}
+                     options={scaleNames}
+                     setValue={setScale}
+                  />
+               </div>
             </Settings>
             <PianoRoll tonic={tonic} scale={scale} />
          </Main>
@@ -88,7 +95,31 @@ const Main = styled.main`
 const Settings = styled.form`
    display: flex;
    flex-direction: row;
+   padding: 2.4rem;
    justify-content: center;
+   > div {
+      display: flex;
+      flex-direction: column;
+      margin: 0 0.8rem;
+      &:first-child {
+         margin-left: 0;
+      }
+      &:last-child {
+         margin-right: 0;
+      }
+   }
+`;
+
+const Label = styled.label`
+   line-height: 3rem;
+   font-size: 1.6rem;
+   margin: 0.8rem 0;
+   &:first-child {
+      margin-top: 0;
+   }
+   &:last-child {
+      margin-bottom: 0;
+   }
 `;
 
 export default App;

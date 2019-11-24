@@ -11,7 +11,7 @@ p, h1, h2, h3, h4, h5 {
    margin: 0;
 }
 
-button:focus, a:focus {
+button:focus, select:focus, a:focus {
    outline: thin dotted;
    outline-color: #646464;
 }

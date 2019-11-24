@@ -56,7 +56,7 @@ const Button = styled.button`
    flex-direction: column;
    justify-content: space-between;
    font-family: 'Courier New', Courier, monospace;
-   font-size: 1.6rem;
+   font-size: 2rem;
    height: 225px;
    width: 75px;
    border: 0;

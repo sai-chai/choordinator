@@ -41,8 +41,9 @@ Key.propTypes = {
 };
 
 const Wrapper = styled.div`
-   margin-left: 2.5px;
-   margin-right: 2.5px;
+   min-width: 25px;
+   width: calc(8.33% - 5px);
+   margin: 0 2.5px 10px;
    &:first-child {
       margin-left: 0;
    }
@@ -58,10 +59,10 @@ const Button = styled.button`
    font-family: 'Courier New', Courier, monospace;
    font-size: 2rem;
    height: 225px;
-   width: 75px;
+   width: 100%;
    border: 0;
    border-radius: 3px;
-   padding: 5px;
+   padding: 10px;
    ${p => p.black ?
       'background: #000; color: #fafafa' :
       'background: #fafafa; color: #000'};

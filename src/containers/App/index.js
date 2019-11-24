@@ -34,6 +34,9 @@ function App (props) {
             <Title>
                The Choordinator
             </Title>
+            <Subtitle>
+               Playing the white keys never sounded so good...
+            </Subtitle>
             {/* <InfoButton onClick={onInfoClick} /> */}
          </Header>
          <Main>
@@ -75,21 +78,34 @@ const Header = styled.header.attrs({
    color: #fff;
    background-color: #77474B;
    height: 50px;
-   padding-left: 50px;
+   padding: 0 50px;
    display: flex;
    flex-direction: row;
+   justify-content: space-between;
 `;
 
 const Title = styled.h1`
    font-size: 2.4rem;
-   line-height: 50px;
+   line-height: 5.0rem;
    font-style: italic;
    font-weight: 500;
+`;
+
+const Subtitle = styled.h3`
+   font-size: 1.6rem;
+   line-height: 5.0rem;
+   font-family: 'Courier New', Courier, monospace;
+   font-style: italic;
+   font-weight: 700;
+   @media (max-width: 770px) {
+      display: none;
+   }
 `;
 
 const Main = styled.main`
    max-width: 1000px;
    margin: 0 auto;
+   padding: 0 0 36px;
 `;
 
 const Settings = styled.form`

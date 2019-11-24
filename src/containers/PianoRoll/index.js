@@ -142,9 +142,12 @@ const Container = styled.div`
    flex-direction: row;
    justify-content: center;
    ${p => p.isLoading && css`
+      min-width: 320px;
+      width: 100%;
+      height: 299px;
       background: linear-gradient(90deg, #f3dec1 40%, #eec994 50%, #f3dec1 60%);
-      background-size: 200% 100%;
-      animation: ${loadingA7n} 1s linear infinite;
+      background-size: 400% 100%;
+      animation: 0.7s ${loadingA7n} linear infinite;
    `};
 `;
 

@@ -39,7 +39,6 @@ function App (props) {
             <Subtitle>
                Playing the white keys never sounded so good...
             </Subtitle>
-            {/* <InfoButton onClick={onInfoClick} /> */}
          </Header>
          <Main>
             <Settings>

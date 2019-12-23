@@ -23,9 +23,9 @@ const ArrowSelect = ({ setValue, name, options, value }) => {
 
    return (
       <Container>
-         <Button htmlFor={name} onClick={onLeftArrow}><InlineSVG src={leftArrow} /></Button>
+         <Button htmlFor={name} name="left-arrow" onClick={onLeftArrow}><InlineSVG src={leftArrow} /></Button>
          <span>{value.replace('#', '\u266F').replace('b', '\u266D')}</span>
-         <Button htmlFor={name} onClick={onRightArrow}><InlineSVG src={rightArrow} /></Button>
+         <Button htmlFor={name} name="right-arrow" onClick={onRightArrow}><InlineSVG src={rightArrow} /></Button>
       </Container>
    );
 };
@@ -56,7 +56,6 @@ const Container = styled.span`
 const Button = styled.button`
    position: relative;
    top: 4px;
-   /* appearance: none; */
    border: none;
    background: none;
    margin: 0 0.8rem;

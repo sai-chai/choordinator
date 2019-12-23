@@ -3,7 +3,8 @@
    "extends": "react",
    "env": {
       "browser": true,
-      "node": true
+      "node": true,
+      "jest": true
    },
    "settings": {
       "react": {
@@ -13,5 +14,6 @@
    "rules": {
       "indent": ["error", 3],
       "comma-dangle": ["error", "always-multiline"]
-   }
+   },
+   "plugins": ["jest", "react"]
 }

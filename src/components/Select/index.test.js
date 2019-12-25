@@ -19,7 +19,7 @@ describe("<Select />", () => {
          />
       );
 
-      expect(wrapper.length).toEqual(1);
+      expect(wrapper).toHaveLength(1);
    });
 
    it("sets value on change", () => {
@@ -34,6 +34,6 @@ describe("<Select />", () => {
       wrapper.find('select').simulate('change', mockEvent);
 
       expect(value).toEqual(mockEvent.target.value);
-      expect(mockEvent.target.blur).toHaveBeenCalled();
+      expect(mockEvent.target.blur).toHaveBeenCalledWith();
    });
 });

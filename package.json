@@ -11,8 +11,8 @@
     "build": "npm run lint && webpack --config ./webpack/prod.config.js",
     "format": "prettier --write \"src/**/*.js\"",
     "lint": "eslint \"src/**/*.js\"",
-    "test": "npm run lint && jest --coverage",
-    "test:watch": "jest --watch"
+    "test": "rimraf ./coverage && npm run lint && jest --coverage",
+    "test:watch": "jest --watch --coverage --lastCommit"
   },
   "keywords": [
     "react",
@@ -58,6 +58,7 @@
     "node-sass": "^4.13.0",
     "nodemon": "^1.19.4",
     "prettier": "1.18.2",
+    "rimraf": "^3.0.0",
     "sass": "^1.23.3",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",

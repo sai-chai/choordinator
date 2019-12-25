@@ -12,7 +12,7 @@ describe("<Key />", () => {
             onMouseUp={() => {}}
          />
       );
-      expect(wrapper.length).toEqual(1);
+      expect(wrapper).toHaveLength(1);
    });
    it("background changes depending on whether note has an accidental", () => {
       const wrapper = mount(

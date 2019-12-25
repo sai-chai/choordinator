@@ -1,6 +1,15 @@
 import Promise from 'promise';
 
-export const playFactory = jest.fn(ctx => jest.fn((name, when, options) => ctx.createGain()));
+export const mockStop = jest.fn();
+
+const playFactory = jest.fn(ctx =>
+   jest.fn((name, when, options) => {
+      const node = ctx.createGain();
+      node.stop = mockStop;
+      return node;
+   }));
+
+export const getMockPlays = () => playFactory.mock.results;
 
 export const mockRejection = (ac, name, options) =>
    new Promise(

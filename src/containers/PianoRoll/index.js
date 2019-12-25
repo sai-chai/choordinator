@@ -14,7 +14,7 @@ import {
 } from './constants';
 
 // NOTE: this `scale` is different from containers/App
-// It's in the format "tonic scale", e.g. "C4 Major", "Ab3 mixolydian"
+// It's in the format "tonic scale", e.g. "C4 major", "Ab3 mixolydian"
 const PianoRoll = ({ tonic, scale }) => {
    // workaround for Safari
    const audioContext = useMemo(() => new (
@@ -63,8 +63,8 @@ const PianoRoll = ({ tonic, scale }) => {
    }, [audioContext, instrument, activeNodes]);
 
    const stopNote = useCallback(midiNote => () => {
+      if (!activeNodes[midiNote]) return;
       audioContext.resume().then(() => {
-         if (!activeNodes[midiNote]) return;
          activeNodes[midiNote].stop();
          setActiveNodes({ ...activeNodes, [midiNote]: null });
       });

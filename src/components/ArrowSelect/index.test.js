@@ -17,7 +17,7 @@ describe("<ArrowSelect />", () => {
             setValue={setValue}
          />
       );
-      expect(wrapper.length).toEqual(1);
+      expect(wrapper).toHaveLength(1);
    });
 
    it("left arrow decrements w/o going out-of-bounds", () => {

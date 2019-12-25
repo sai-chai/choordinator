@@ -1,6 +1,6 @@
 {
    "parser": "babel-eslint",
-   "extends": "react",
+   "extends": ["react", "plugin:jest/all"],
    "env": {
       "browser": true,
       "node": true,
@@ -13,7 +13,10 @@
    },
    "rules": {
       "indent": ["error", 3],
-      "comma-dangle": ["error", "always-multiline"]
+      "comma-dangle": ["error", "always-multiline"],
+      "jest/prefer-expect-assertions": "off",
+      "jest/prefer-strict-equal": "off",
+      "jest/prefer-spy-on": "off"
    },
    "plugins": ["jest", "react"]
 }

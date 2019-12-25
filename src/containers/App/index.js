@@ -16,17 +16,19 @@ function App (props) {
    const [tonic, setTonic] = useState(DEFAULT_TONIC);
 
    // For scale dropdown, e.g. major, minor, mixolydian, etc.
-   const scaleNames = useMemo(
-      () => scaleDictionary().reduce(
-         (acc, curr) => {
-            acc.push(curr.name);
-            return acc;
-         }, []
-      ).sort()
-   );
+   const scaleNames = useMemo(() => {
+      const map = {};
+      scaleDictionary().forEach(s => {
+         map[s.name] = {};
+         s.aliases.forEach(a => {
+            map[a] = {};
+         });
+      });
+      return Object.keys(map).sort();
+   }, []);
 
    // For tonic selector, e.g. C5, Ab4, G1, etc.
-   const tonicList = useMemo(() => chromatic(RANGE_TUPLET));
+   const tonicList = useMemo(() => chromatic(RANGE_TUPLET), []);
 
    return (
       <Container>

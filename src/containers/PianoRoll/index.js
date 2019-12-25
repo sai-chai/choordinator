@@ -17,7 +17,10 @@ import {
 // It's in the format "tonic scale", e.g. "C4 Major", "Ab3 mixolydian"
 const PianoRoll = ({ tonic, scale }) => {
    // workaround for Safari
-   const audioContext = useMemo(() => new (window.AudioContext || window.webkitAudioContext)(), []);
+   const audioContext = useMemo(() => new (
+      window.AudioContext ||
+      window.webkitAudioContext
+   )(), []);
    const currentScale = useMemo(() => scaleInfo(`${tonic} ${scale}`), [tonic, scale]);
    const [activeNodes, setActiveNodes] = useState({});
    const [isLoading, setLoading] = useState(true);
@@ -68,6 +71,7 @@ const PianoRoll = ({ tonic, scale }) => {
    }, [audioContext, instrument, activeNodes]);
 
    const keys = useMemo(() => {
+      if (currentScale.empty) return [];
       let currentNotes = rotate(-2, currentScale.notes);
       let currentIntervals = rotate(-2, currentScale.intervals);
       const result = [];

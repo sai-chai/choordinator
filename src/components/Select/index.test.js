@@ -21,6 +21,7 @@ describe("<Select />", () => {
 
       expect(wrapper.length).toEqual(1);
    });
+
    it("sets value on change", () => {
       const wrapper = mount(
          <Select

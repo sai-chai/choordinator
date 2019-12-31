@@ -34,10 +34,10 @@ Key.propTypes = {
    black: PropTypes.bool,
    letter: PropTypes.string,
    code: PropTypes.string,
-   note: PropTypes.string.isRequired,
+   note: PropTypes.string,
    interval: PropTypes.string,
-   onMouseDown: PropTypes.func.isRequired,
-   onMouseUp: PropTypes.func.isRequired,
+   onMouseDown: PropTypes.func,
+   onMouseUp: PropTypes.func,
 };
 
 const Wrapper = styled.div`

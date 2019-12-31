@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const express = require('express');
 const config = require('../webpack/prod.config.js');
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 try {

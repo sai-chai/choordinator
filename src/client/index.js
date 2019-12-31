@@ -7,11 +7,6 @@ import App from 'containers/App';
 
 import './base.scss';
 
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-
-library.add(faInfoCircle);
-
 const render = () => {
    ReactDOM.render(<App />, document.getElementById('root'));
 };

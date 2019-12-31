@@ -1,6 +1,6 @@
 {
   "name": "choordinator",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Scale and chord inventory for browsers",
   "repository": "github:sai-chai/choordinator",
   "main": "index.js",

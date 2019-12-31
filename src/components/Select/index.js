@@ -25,7 +25,7 @@ const Select = ({ name, options, value, setValue }) => {
 
 Select.propTypes = {
    name: PropTypes.string,
-   options: PropTypes.arrayOf(PropTypes.string),
+   options: PropTypes.arrayOf(PropTypes.string).isRequired,
    value: PropTypes.string,
    setValue: PropTypes.func,
 };

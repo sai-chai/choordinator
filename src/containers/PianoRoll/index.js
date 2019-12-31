@@ -14,57 +14,64 @@ import {
 } from './constants';
 
 // NOTE: this `scale` is different from containers/App
-// It's in the format "tonic scale", e.g. "C4 Major", "Ab3 mixolydian"
+// It's in the format "tonic scale", e.g. "C4 major", "Ab3 mixolydian"
 const PianoRoll = ({ tonic, scale }) => {
-   const audioContext = useMemo(() => new (window.AudioContext || window.webkitAudioContext)(), []); // workaround for Safari
+   // workaround for Safari
+   const audioContext = useMemo(() => new (
+      window.AudioContext ||
+      window.webkitAudioContext
+   )(), []);
    const currentScale = useMemo(() => scaleInfo(`${tonic} ${scale}`), [tonic, scale]);
    const [activeNodes, setActiveNodes] = useState({});
    const [isLoading, setLoading] = useState(true);
    const [loadingError, setLoadingError] = useState(false);
    const [instrument, setInstrument] = useState({});
 
-   const instrumentLoader = useCallback(() => {
-      async function load () {
-         return await Soundfont.instrument(
-            audioContext,
-            'electric_piano_1',
-            { soundfont: 'FluidR3_GM' }
-         )
-            .then(result => {
+   useEffect(() => {
+      let mounted = true;
+      Soundfont.instrument(
+         audioContext,
+         'electric_piano_1',
+         { soundfont: 'FluidR3_GM' }
+      )
+         .then(result => {
+            if (mounted) {
                setLoading(false);
                setInstrument(result);
-            })
-            .catch(err => {
-               console.log(err);
+            }
+         })
+         .catch(err => {
+            console.log(err);
+            if (mounted) {
                setLoadingError(true);
-            });
-      }
-      load();
+            }
+         });
+      return () => (mounted = false);
    }, []);
-
-   useEffect(instrumentLoader, []);
 
    useEffect(() => () => audioContext.close(), [audioContext]);
 
    const playNote = useCallback(midiNote => () => {
       if (!activeNodes[midiNote]) {
-         audioContext.resume().then(() => {
-            const audioNode = instrument.play(midiNote);
-            setActiveNodes({ ...activeNodes, [midiNote]: audioNode });
-         });
+         audioContext.resume().then(
+            () => setActiveNodes({
+               ...activeNodes,
+               [midiNote]: instrument.play(midiNote),
+            })
+         );
       }
    }, [audioContext, instrument, activeNodes]);
 
    const stopNote = useCallback(midiNote => () => {
+      if (!activeNodes[midiNote]) return;
       audioContext.resume().then(() => {
-         if (!activeNodes[midiNote]) return;
-         const audioNode = activeNodes[midiNote];
-         audioNode.stop();
+         activeNodes[midiNote].stop();
          setActiveNodes({ ...activeNodes, [midiNote]: null });
       });
    }, [audioContext, instrument, activeNodes]);
 
    const keys = useMemo(() => {
+      if (currentScale.empty) return [];
       let currentNotes = rotate(-2, currentScale.notes);
       let currentIntervals = rotate(-2, currentScale.intervals);
       const result = [];
@@ -76,8 +83,8 @@ const PianoRoll = ({ tonic, scale }) => {
             transpose = 1;
          }
          const noteInfo = note(currentNotes[0]);
-         const play = playNote(noteInfo.midi + (transpose * 12));
-         const stop = stopNote(noteInfo.midi + (transpose * 12));
+         const midiNote = noteInfo.midi + (transpose * 12);
+
          let code;
          if (index < HOME_ROW_KEYS.length - 2) code = "Key" + letter;
          else code = letter === ";" ? "Semicolon" : "Quote";
@@ -89,8 +96,8 @@ const PianoRoll = ({ tonic, scale }) => {
             note: noteInfo.pc + (noteInfo.oct + transpose),
             interval: currentIntervals[0],
             black: noteInfo.alt !== 0,
-            onMouseDown: play,
-            onMouseUp: stop,
+            onMouseDown: playNote(midiNote),
+            onMouseUp: stopNote(midiNote),
          });
 
          currentNotes = rotate(1, currentNotes);

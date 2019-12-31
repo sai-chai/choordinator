@@ -1,9 +1,10 @@
 {
    "parser": "babel-eslint",
-   "extends": "react",
+   "extends": ["react", "plugin:jest/recommended"],
    "env": {
       "browser": true,
-      "node": true
+      "node": true,
+      "jest": true
    },
    "settings": {
       "react": {
@@ -13,5 +14,6 @@
    "rules": {
       "indent": ["error", 3],
       "comma-dangle": ["error", "always-multiline"]
-   }
+   },
+   "plugins": ["jest", "react"]
 }

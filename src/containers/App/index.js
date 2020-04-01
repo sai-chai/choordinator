@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { entries as scaleDictionary } from '@tonaljs/scale-dictionary';
+import { all as scaleDictionary } from '@tonaljs/scale-dictionary';
 import { chromatic } from '@tonaljs/range';
 
 import PianoRoll from 'containers/PianoRoll';

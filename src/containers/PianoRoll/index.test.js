@@ -10,14 +10,14 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { mount } from 'enzyme';
 import { rotate } from '@tonaljs/array';
-import { scale as scaleInfo } from '@tonaljs/scale';
+import { get as getScale } from '@tonaljs/scale';
 import { note } from '@tonaljs/tonal';
 import PianoRoll from './index';
 
 describe("<PianoRoll />", () => {
    const scale = 'minor';
    const tonic = 'A3';
-   const notes = rotate(-2, scaleInfo(`${tonic} ${scale}`).notes);
+   const notes = rotate(-2, getScale(`${tonic} ${scale}`).notes);
    window.AudioContext = AudioContext;
    const keyUpMock = { code: 'KeyA', type: 'keyup' };
    const keyDownMock = { code: 'KeyA', type: 'keydown' };

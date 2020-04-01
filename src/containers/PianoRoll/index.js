@@ -6,7 +6,7 @@ import Soundfont from 'soundfont-player';
 
 import { note } from '@tonaljs/tonal';
 import { rotate } from '@tonaljs/array';
-import { scale as scaleInfo } from '@tonaljs/scale';
+import { get as getScale } from '@tonaljs/scale';
 
 import Key from 'components/Key';
 import {
@@ -21,7 +21,7 @@ const PianoRoll = ({ tonic, scale }) => {
       window.AudioContext ||
       window.webkitAudioContext
    )(), []);
-   const currentScale = useMemo(() => scaleInfo(`${tonic} ${scale}`), [tonic, scale]);
+   const currentScale = useMemo(() => getScale(`${tonic} ${scale}`), [tonic, scale]);
    const [activeNodes, setActiveNodes] = useState({});
    const [isLoading, setLoading] = useState(true);
    const [loadingError, setLoadingError] = useState(false);

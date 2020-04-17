@@ -9,42 +9,34 @@ import Soundfont, {
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { mount } from 'enzyme';
-import { rotate } from '@tonaljs/array';
+import Collection from '@tonaljs/collection';
 import { get as getScale } from '@tonaljs/scale';
 import { note } from '@tonaljs/tonal';
 import PianoRoll from './index';
 
-describe("<PianoRoll />", () => {
+describe('<PianoRoll />', () => {
    const scale = 'minor';
    const tonic = 'A3';
-   const notes = rotate(-2, getScale(`${tonic} ${scale}`).notes);
+   const notes = Collection.rotate(-2, getScale(`${tonic} ${scale}`).notes);
    window.AudioContext = AudioContext;
    const keyUpMock = { code: 'KeyA', type: 'keyup' };
    const keyDownMock = { code: 'KeyA', type: 'keydown' };
    const wrongKeyMock = { code: 'KeyR', type: 'keydown' };
 
-   it("rejection smoke test", async () => {
+   it('rejection smoke test', async () => {
       Soundfont.instrument.mockImplementationOnce(mockRejection);
-      const wrapper = mount(
-         <PianoRoll />
-      );
+      const wrapper = mount(<PianoRoll />);
       await act(async () => {
          await flushPromises();
       });
       const container = wrapper.find('PianoRoll__Container');
       expect(wrapper).toHaveLength(1);
-      expect(container)
-         .toHaveStyleRule('background-size', '400% 100%');
+      expect(container).toHaveStyleRule('background-size', '400% 100%');
       expect(container.text()).toEqual('Error');
    });
 
-   it("resolution smoke test", async () => {
-      const wrapper = mount(
-         <PianoRoll
-            scale={scale}
-            tonic={tonic}
-         />
-      );
+   it('resolution smoke test', async () => {
+      const wrapper = mount(<PianoRoll scale={scale} tonic={tonic} />);
       await act(async () => {
          await flushPromises();
          wrapper.update();
@@ -52,19 +44,15 @@ describe("<PianoRoll />", () => {
       const keys = wrapper.find('Key');
       expect(keys).toHaveLength(11);
       keys.map((k, i) => {
-         expect(k.prop('note').charAt(0))
-            .toEqual(note(notes[i >= 7 ? i - 7 : i]).pc);
+         expect(k.prop('note').charAt(0)).toEqual(
+            note(notes[i >= 7 ? i - 7 : i]).pc,
+         );
       });
    });
 
-   it("plays note F3 on keydown and stops on keyup", async () => {
+   it('plays note F3 on keydown and stops on keyup', async () => {
       // eslint-disable-next-line no-unused-vars
-      const wrapper = mount(
-         <PianoRoll
-            scale={scale}
-            tonic={tonic}
-         />
-      );
+      const wrapper = mount(<PianoRoll scale={scale} tonic={tonic} />);
       await act(async () => {
          await flushPromises();
          window.onkeydown(keyDownMock);
@@ -80,15 +68,10 @@ describe("<PianoRoll />", () => {
       expect(mockStop).toHaveBeenCalledTimes(1);
    });
 
-   it("ignores keys that are already playing or have already stopped playing", async () => {
+   it('ignores keys that are already playing or have already stopped playing', async () => {
       let playMock;
       // eslint-disable-next-line no-unused-vars
-      const wrapper = mount(
-         <PianoRoll
-            scale={scale}
-            tonic={tonic}
-         />
-      );
+      const wrapper = mount(<PianoRoll scale={scale} tonic={tonic} />);
       await act(async () => {
          await flushPromises();
          playMock = getMockPlays()[0].value;
@@ -104,14 +87,9 @@ describe("<PianoRoll />", () => {
       expect(mockStop).toHaveBeenCalledTimes(1);
    });
 
-   it("ignores non-home-row keys", async () => {
+   it('ignores non-home-row keys', async () => {
       // eslint-disable-next-line no-unused-vars
-      const wrapper = mount(
-         <PianoRoll
-            scale={scale}
-            tonic={tonic}
-         />
-      );
+      const wrapper = mount(<PianoRoll scale={scale} tonic={tonic} />);
       await act(async () => {
          await flushPromises();
          window.onkeydown(wrongKeyMock);
@@ -121,16 +99,11 @@ describe("<PianoRoll />", () => {
       expect(playMock).not.toHaveBeenCalled();
    });
 
-   it("cleans up promises in onMount effect", async () => {
+   it('cleans up promises in onMount effect', async () => {
       const errorSpy = jest.spyOn(console, 'error');
       let error, wrapper;
       try {
-         wrapper = mount(
-            <PianoRoll
-               scale={scale}
-               tonic={tonic}
-            />
-         );
+         wrapper = mount(<PianoRoll scale={scale} tonic={tonic} />);
          // without effect cleanup, this would throw a warning
          // about setting state on an unmounted component
          await act(async () => {
@@ -142,12 +115,7 @@ describe("<PianoRoll />", () => {
       }
       Soundfont.instrument.mockImplementationOnce(mockRejection);
       try {
-         wrapper = mount(
-            <PianoRoll
-               scale={scale}
-               tonic={tonic}
-            />
-         );
+         wrapper = mount(<PianoRoll scale={scale} tonic={tonic} />);
          await act(async () => {
             wrapper.unmount();
             await flushPromises();
@@ -160,16 +128,11 @@ describe("<PianoRoll />", () => {
       errorSpy.mockRestore();
    });
 
-   it("uses the workaround for Safari", async () => {
+   it('uses the workaround for Safari', async () => {
       window.AudioContext = undefined;
       window.webkitAudioContext = AudioContext;
       // eslint-disable-next-line no-unused-vars
-      const wrapper = mount(
-         <PianoRoll
-            scale={scale}
-            tonic={tonic}
-         />
-      );
+      const wrapper = mount(<PianoRoll scale={scale} tonic={tonic} />);
       await act(async () => {
          await flushPromises();
          window.onkeydown(keyDownMock);

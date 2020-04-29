@@ -3,30 +3,15 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { note as noteFn } from '@tonaljs/tonal';
 
-const Key = ({
-   black,
-   letter,
-   note,
-   interval,
-   onMouseDown,
-   onMouseUp,
-}) => (
+const Key = ({ black, letter, note, interval, onMouseDown, onMouseUp }) => (
    <Wrapper>
-      <Button
-         black={black}
-         onMouseDown={onMouseDown}
-         onMouseUp={onMouseUp}
-      >
-         <Letter>
-            {letter}
-         </Letter>
+      <Button black={black} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
+         <Letter>{letter}</Letter>
          <Note>
             {noteFn(note).pc.replace('#', '\u266F').replace('b', '\u266D')}
          </Note>
       </Button>
-      <Interval>
-         {interval}
-      </Interval>
+      <Interval>{interval}</Interval>
    </Wrapper>
 );
 
@@ -63,9 +48,10 @@ const Button = styled.button`
    border: 0;
    border-radius: 3px;
    padding: 10px;
-   ${p => p.black ?
-      'background: #000; color: #fafafa' :
-      'background: #fafafa; color: #000'};
+   ${p =>
+      p.black
+         ? 'background: #000; color: #fafafa'
+         : 'background: #fafafa; color: #000'};
    &:focus {
       outline: none;
    }

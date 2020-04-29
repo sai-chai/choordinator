@@ -8,6 +8,6 @@ export const HOME_ROW_KEYS = [
    'J',
    'K',
    'L',
-   `;`,
-   `'`,
+   ';',
+   "'",
 ];

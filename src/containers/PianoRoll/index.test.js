@@ -1,5 +1,5 @@
 jest.mock('soundfont-player');
-import { AudioContext } from 'web-audio-mock-api';
+import { AudioContext as audioContextMock } from 'web-audio-mock-api';
 import flushPromises from 'flush-promises';
 import Soundfont, {
    getMockPlays,
@@ -18,10 +18,77 @@ describe('<PianoRoll />', () => {
    const scale = 'minor';
    const tonic = 'A3';
    const notes = Collection.rotate(-2, getScale(`${tonic} ${scale}`).notes);
-   window.AudioContext = AudioContext;
-   const keyUpMock = { code: 'KeyA', type: 'keyup' };
-   const keyDownMock = { code: 'KeyA', type: 'keydown' };
-   const wrongKeyMock = { code: 'KeyR', type: 'keydown' };
+   const keyUpMock = new KeyboardEvent('keyup', {
+      code: 'KeyA',
+      key: 'a',
+      location: 0,
+      ctrlKey: false,
+      shiftKey: false,
+      altKey: false,
+      metaKey: false,
+      repeat: false,
+      isComposing: false,
+      charCode: 0,
+      keyCode: 65,
+      view: window,
+      detail: 0,
+      which: 65,
+      bubbles: false,
+      cancelable: true,
+      composed: true,
+   });
+   const keyDownMock = new KeyboardEvent('keydown', {
+      code: 'KeyA',
+      key: 'a',
+      location: 0,
+      ctrlKey: false,
+      shiftKey: false,
+      altKey: false,
+      metaKey: false,
+      repeat: false,
+      isComposing: false,
+      charCode: 0,
+      keyCode: 65,
+      view: window,
+      detail: 0,
+      which: 65,
+      bubbles: false,
+      cancelable: true,
+      composed: true,
+   });
+   const wrongKeyMock = new KeyboardEvent('keydown', {
+      code: 'KeyR',
+      key: 'r',
+      location: 0,
+      ctrlKey: false,
+      shiftKey: false,
+      altKey: false,
+      metaKey: false,
+      repeat: false,
+      isComposing: false,
+      charCode: 0,
+      keyCode: 82,
+      view: window,
+      detail: 0,
+      which: 82,
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+   });
+   const listenerMap = {};
+   window.addEventListener = jest.fn((event, listener) => {
+      listenerMap[event] = listener;
+   });
+   window.removeEventListener = jest.fn((event, listener) => {
+      listenerMap[event] = null;
+   });
+   window.dispatchEvent = jest.fn(event => {
+      listenerMap[event.type](event);
+   });
+
+   beforeEach(() => {
+      window.AudioContext = audioContextMock;
+   });
 
    it('rejection smoke test', async () => {
       Soundfont.instrument.mockImplementationOnce(mockRejection);
@@ -55,16 +122,12 @@ describe('<PianoRoll />', () => {
       const wrapper = mount(<PianoRoll scale={scale} tonic={tonic} />);
       await act(async () => {
          await flushPromises();
-         window.onkeydown(keyDownMock);
+         window.dispatchEvent(keyDownMock);
          await flushPromises();
+         window.dispatchEvent(keyUpMock);
       });
       const playMock = getMockPlays()[0].value;
       expect(playMock).toHaveBeenLastCalledWith(note('F3').midi);
-
-      await act(async () => {
-         window.onkeyup(keyUpMock);
-         await flushPromises();
-      });
       expect(mockStop).toHaveBeenCalledTimes(1);
    });
 
@@ -75,13 +138,13 @@ describe('<PianoRoll />', () => {
       await act(async () => {
          await flushPromises();
          playMock = getMockPlays()[0].value;
-         window.onkeydown(keyDownMock);
+         window.dispatchEvent(keyDownMock);
          await flushPromises();
-         window.onkeydown(keyDownMock);
+         window.dispatchEvent(keyDownMock);
          await flushPromises();
-         window.onkeyup(keyUpMock);
+         window.dispatchEvent(keyUpMock);
          await flushPromises();
-         window.onkeyup(keyUpMock);
+         window.dispatchEvent(keyUpMock);
       });
       expect(playMock).toHaveBeenCalledTimes(1);
       expect(mockStop).toHaveBeenCalledTimes(1);
@@ -92,7 +155,7 @@ describe('<PianoRoll />', () => {
       const wrapper = mount(<PianoRoll scale={scale} tonic={tonic} />);
       await act(async () => {
          await flushPromises();
-         window.onkeydown(wrongKeyMock);
+         window.dispatchEvent(wrongKeyMock);
          await flushPromises();
       });
       const playMock = getMockPlays()[0].value;
@@ -113,12 +176,14 @@ describe('<PianoRoll />', () => {
       } catch (e) {
          error = e;
       }
+      // Testing for both resolve and reject states
       Soundfont.instrument.mockImplementationOnce(mockRejection);
       try {
          wrapper = mount(<PianoRoll scale={scale} tonic={tonic} />);
          await act(async () => {
             wrapper.unmount();
             await flushPromises();
+            wrapper.update();
          });
       } catch (e) {
          error = e;
@@ -130,12 +195,12 @@ describe('<PianoRoll />', () => {
 
    it('uses the workaround for Safari', async () => {
       window.AudioContext = undefined;
-      window.webkitAudioContext = AudioContext;
+      window.webkitAudioContext = audioContextMock;
       // eslint-disable-next-line no-unused-vars
       const wrapper = mount(<PianoRoll scale={scale} tonic={tonic} />);
       await act(async () => {
          await flushPromises();
-         window.onkeydown(keyDownMock);
+         window.dispatchEvent(keyDownMock);
          await flushPromises();
       });
       expect(getMockPlays()[0].value).toHaveBeenCalledTimes(1);

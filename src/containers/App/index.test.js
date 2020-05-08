@@ -6,13 +6,11 @@ import { act } from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
 import App from './index';
 
-describe("<PianoRoll />", () => {
+describe('<PianoRoll />', () => {
    window.AudioContext = AudioContext;
 
-   it("smoke test", async () => {
-      const wrapper = shallow(
-         <App />
-      );
+   it('smoke test', async () => {
+      const wrapper = shallow(<App />);
       await act(async () => {
          await flushPromises();
       });

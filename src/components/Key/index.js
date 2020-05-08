@@ -8,25 +8,23 @@ const Key = ({
    letter,
    note,
    interval,
+   pressed,
    onMouseDown,
    onMouseUp,
 }) => (
    <Wrapper>
       <Button
          black={black}
+         pressed={pressed}
          onMouseDown={onMouseDown}
          onMouseUp={onMouseUp}
       >
-         <Letter>
-            {letter}
-         </Letter>
+         <Letter>{letter}</Letter>
          <Note>
-            {noteFn(note).pc.replace('#', '\u266F').replace('b', '\u266D')}
+            {noteFn(note).pc.replace(/#/g, '\u266F').replace(/b/g, '\u266D')}
          </Note>
       </Button>
-      <Interval>
-         {interval}
-      </Interval>
+      <Interval>{interval}</Interval>
    </Wrapper>
 );
 
@@ -36,6 +34,7 @@ Key.propTypes = {
    code: PropTypes.string,
    note: PropTypes.string.isRequired,
    interval: PropTypes.string,
+   pressed: PropTypes.bool,
    onMouseDown: PropTypes.func.isRequired,
    onMouseUp: PropTypes.func.isRequired,
 };
@@ -52,6 +51,19 @@ const Wrapper = styled.div`
    }
 `;
 
+const buttonBackground = props => {
+   if (props.black) {
+      if (props.pressed) {
+         return '#4f4f4f';
+      }
+      return '#000';
+   }
+   if (props.pressed) {
+      return '#e3e3e3';
+   }
+   return '#fafafa';
+};
+
 const Button = styled.button`
    display: flex;
    flex-direction: column;
@@ -63,11 +75,12 @@ const Button = styled.button`
    border: 0;
    border-radius: 3px;
    padding: 10px;
-   ${p => p.black ?
-      'background: #000; color: #fafafa' :
-      'background: #fafafa; color: #000'};
+   color: ${p => (p.black ? '#fafafa' : '#000')};
+   background: ${buttonBackground};
    &:focus {
-      outline: none;
+      outline-color: ${p => (p.black ? '#fafafa' : '#000')};
+      outline-offset: -3px;
+      outline-width: 2px;
    }
 `;
 

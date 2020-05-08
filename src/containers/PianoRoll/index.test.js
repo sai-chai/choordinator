@@ -99,7 +99,7 @@ describe('<PianoRoll />', () => {
       const container = wrapper.find('PianoRoll__Container');
       expect(wrapper).toHaveLength(1);
       expect(container).toHaveStyleRule('background-size', '400% 100%');
-      expect(container.text()).toEqual('Error');
+      expect(container.text()).toContain('Error');
    });
 
    it('resolution smoke test', async () => {

@@ -1,6 +1,11 @@
 {
    "parser": "babel-eslint",
-   "extends": ["react", "plugin:jest/recommended", "plugin:prettier/recommended", "plugin:react-hooks/recommended"],
+   "extends": [
+      "react",
+      "plugin:jest/recommended",
+      "plugin:prettier/recommended",
+      "plugin:react-hooks/recommended"
+   ],
    "env": {
       "browser": true,
       "node": true,
@@ -12,10 +17,8 @@
       }
    },
    "rules": {
-      "prettier/prettier": "error",
-      "indent": ["error", 3],
       "comma-dangle": ["error", "always-multiline"],
       "quotes": ["error", "single", { "avoidEscape": true }]
    },
-   "plugins": ["jest", "react", "prettier",  "react-hooks"]
+   "plugins": ["jest", "react", "prettier", "react-hooks"]
 }

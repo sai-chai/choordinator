@@ -40,7 +40,7 @@ const PianoRoll = ({ tonic, scale }) => {
    const [instrument, setInstrument] = React.useState({});
 
    React.useEffect(() => {
-      // audioContext is used to ensure that async fxn doesn't
+      // registerPromise is used to ensure that async fxn doesn't
       // cause a memory leak if it resolves after a dismount
       (async function () {
          try {
@@ -62,40 +62,44 @@ const PianoRoll = ({ tonic, scale }) => {
 
    // Mixin for 'play' event handler
    const playNote = React.useCallback(
-      function (midiNote, noteName) {
-         return function () {
-            if (!activeNodes[midiNote]) {
-               (async function () {
-                  await audioContext.resume();
+      (midiNote, noteName) => () => {
+         if (!activeNodes[midiNote]) {
+            (async function () {
+               try {
+                  await registerPromise(audioContext.resume());
                   setActiveNodes({
                      ...activeNodes,
                      [midiNote]: instrument.play(midiNote),
                   });
-               })();
-               setPlayingNotes(playingNotes.concat(noteName));
-            }
-         };
+               } catch (error) {
+                  console.log(error.message);
+               }
+            })();
+            setPlayingNotes(playingNotes.concat(noteName));
+         }
       },
-      [audioContext, instrument, activeNodes, playingNotes],
+      [audioContext, instrument, activeNodes, playingNotes, registerPromise],
    );
 
    // Mixin for 'stop' event handler
    const stopNote = React.useCallback(
-      function (midiNote, noteName) {
-         return function () {
-            if (!activeNodes[midiNote]) return;
-            (async function () {
-               await audioContext.resume();
+      (midiNote, noteName) => () => {
+         if (!activeNodes[midiNote]) return;
+         (async function () {
+            try {
+               await registerPromise(audioContext.resume());
                activeNodes[midiNote].stop();
                setActiveNodes({
                   ...activeNodes,
                   [midiNote]: null,
                });
-            })();
-            setPlayingNotes(playingNotes.filter(note => note !== noteName));
-         };
+            } catch (error) {
+               console.log(error.message);
+            }
+         })();
+         setPlayingNotes(playingNotes.filter(note => note !== noteName));
       },
-      [audioContext, activeNodes, playingNotes],
+      [audioContext, activeNodes, playingNotes, registerPromise],
    );
 
    const keys = React.useMemo(
@@ -158,6 +162,7 @@ const PianoRoll = ({ tonic, scale }) => {
       window.addEventListener('keyup', onKeyboardEvent);
       window.addEventListener('keydown', onKeyboardEvent);
       return () => {
+         // removal optimizes for garbage collection
          window.removeEventListener('keyup', onKeyboardEvent);
          window.removeEventListener('keydown', onKeyboardEvent);
       };
@@ -165,7 +170,7 @@ const PianoRoll = ({ tonic, scale }) => {
 
    return loadingError ? (
       <Container isLoading>
-         <div>Error</div>
+         <ErrorMessage>Error: Failed to load instrument</ErrorMessage>
       </Container>
    ) : (
       <>
@@ -179,7 +184,9 @@ const PianoRoll = ({ tonic, scale }) => {
                   />
                ))}
          </Container>
-         <div className="chord-name">{currentChord.join(', ')}</div>
+         <ChordName>
+            {!!currentChord.length && ['Chord: ', currentChord.join(', ')]}
+         </ChordName>
       </>
    );
 };
@@ -217,6 +224,16 @@ const Container = styled.div`
          background-size: 400% 100%;
          animation: 0.7s ${loadingA7n} linear infinite;
       `};
+`;
+
+const ErrorMessage = styled.div`
+   align-self: center;
+   font-size: 2rem;
+`;
+
+const ChordName = styled.div`
+   text-align: center;
+   font-size: 2rem;
 `;
 
 export default PianoRoll;

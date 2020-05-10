@@ -3,6 +3,15 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { note as noteFn } from '@tonaljs/tonal';
 
+/**
+ * @param black indicates whether to color the key black
+ * @param letter the keyboard key being mapped to
+ * @param note the musical note being mapped
+ * @param interval the musical interval from the tonic that the key represents
+ * @param pressed whether the key is being played
+ * @param onMouseDown play note handler
+ * @param onMouseUp stop note handler
+ */
 const Key = ({
    black,
    letter,

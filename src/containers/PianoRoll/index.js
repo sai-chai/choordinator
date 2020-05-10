@@ -33,10 +33,17 @@ const PianoRoll = ({ tonic, scale }) => {
       () => Scale.get([tonic, scale].join(' ')),
       [tonic, scale],
    );
+   // dictionary of AudioNodes currently playing; key = note name
    const [activeNodes, setActiveNodes] = React.useState({});
+
+   // string[] - list of names of notes being played
    const [playingNotes, setPlayingNotes] = React.useState([]);
+
+   // indicators of loading state
    const [isLoading, setLoading] = React.useState(true);
    const [loadingError, setLoadingError] = React.useState(false);
+
+   // the soundfont instrument itself
    const [instrument, setInstrument] = React.useState({});
 
    React.useEffect(() => {

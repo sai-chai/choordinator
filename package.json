@@ -32,7 +32,7 @@
       "@tonaljs/scale": "^3.5.1",
       "@tonaljs/scale-dictionary": "^3.4.4",
       "@tonaljs/tonal": "^3.6.0",
-      "axios": "^0.19.2",
+      "axios": "^0.21.1",
       "core-js": "^3.6.4",
       "promise": "^8.1.0",
       "prop-types": "^15.7.2",

@@ -75,7 +75,7 @@
       "jest-enzyme": "^7.1.2",
       "jest-styled-components": "^6.3.4",
       "jest-svg-transformer": "^1.0.0",
-      "jsdom": "15.2.1",
+      "jsdom": "16.5.0",
       "jsdom-global": "3.0.2",
       "node-notifier": "^8.0.1",
       "node-sass": "^4.14.1",
